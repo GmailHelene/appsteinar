@@ -1,0 +1,330 @@
+{% extends "base.html" %}
+
+{% block title %}Offline modus - SteinID Pro{% endblock %}
+
+{% block content %}
+<!-- Offline Hero -->
+<section class="offline-hero">
+    <div class="container text-center">
+        <div class="offline-icon">
+            <i class="fas fa-wifi"></i>
+        </div>
+        <h1 class="display-4 fw-bold mb-3">Du er offline</h1>
+        <p class="lead mb-4">
+            Ingen internettforbindelse, men du kan fortsatt bruke mange funksjoner
+        </p>
+        <button class="btn btn-warning btn-lg" onclick="checkConnection()">
+            <i class="fas fa-sync"></i>
+            Prøv å koble til igjen
+        </button>
+    </div>
+</section>
+
+<!-- Offline Features -->
+<section class="offline-features">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">Hva du kan gjøre offline</h2>
+            <p class="lead text-muted">Appen fungerer fortsatt uten internett</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="offline-feature">
+                    <div class="offline-feature-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h5>Ta bilder</h5>
+                    <p class="text-muted">
+                        Ta bilder av steiner og lagre dem lokalt. De analyseres når du kommer online igjen.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="offline-feature">
+                    <div class="offline-feature-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <h5>Registrer egenskaper</h5>
+                    <p class="text-muted">
+                        Fyll ut skjemaer med steinegeenskaper. Data synkroniseres automatisk senere.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="offline-feature">
+                    <div class="offline-feature-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h5>Les kategorier</h5>
+                    <p class="text-muted">
+                        Utforsk steintyper og lær om geologi med offline-innholdet vårt.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="offline-feature">
+                    <div class="offline-feature-icon">
+                        <i class="fas fa-bookmark"></i>
+                    </div>
+                    <h5>Se lagrede resultater</h5>
+                    <p class="text-muted">
+                        Få tilgang til tidligere analyser og resultater lagret på enheten.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="offline-feature">
+                    <div class="offline-feature-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h5>Identifikasjonstips</h5>
+                    <p class="text-muted">
+                        Lær hvordan du kan identifisere steiner manuelt med våre eksperttips.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="offline-feature">
+                    <div class="offline-feature-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h5>Automatisk synkronisering</h5>
+                    <p class="text-muted">
+                        Alt lagres lokalt og synkroniseres automatisk når internett er tilbake.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Offline Identification Form -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-custom">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0">
+                            <i class="fas fa-clipboard-list"></i>
+                            Registrer stein offline
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted mb-4">
+                            Fyll ut informasjon om steinen din. Dette lagres lokalt og analyseres når du får internett igjen.
+                        </p>
+                        
+                        <form id="offlineForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="offline-farge" class="form-label">Farge</label>
+                                    <input type="text" class="form-control" id="offline-farge" placeholder="Beskriv fargen">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="offline-storrelse" class="form-label">Størrelse</label>
+                                    <input type="text" class="form-control" id="offline-storrelse" placeholder="Omtrentlig størrelse">
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="offline-vekt" class="form-label">Vekt</label>
+                                    <input type="text" class="form-control" id="offline-vekt" placeholder="Omtrentlig vekt">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="offline-sted" class="form-label">Funnet sted</label>
+                                    <input type="text" class="form-control" id="offline-sted" placeholder="Hvor fant du steinen?">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="offline-detaljer" class="form-label">Andre detaljer</label>
+                                <textarea class="form-control" id="offline-detaljer" rows="3" 
+                                          placeholder="Beskriv andre egenskaper ved steinen..."></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="offline-image" class="form-label">Ta bilde (valgfri)</label>
+                                <input type="file" class="form-control" id="offline-image" accept="image/*" capture="camera">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-warning w-100">
+                                <i class="fas fa-save"></i>
+                                Lagre for senere analyse
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Connection Status -->
+<section class="py-3 bg-dark text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="d-flex align-items-center">
+                    <div id="connection-dot" class="me-3" style="width: 12px; height: 12px; border-radius: 50%; background: #dc3545;"></div>
+                    <div>
+                        <strong id="connection-text">Offline</strong>
+                        <small class="d-block text-muted">Prøver å koble til...</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <small id="last-sync">Sist synkronisert: Aldri</small>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Offline functionality
+let offlineData = JSON.parse(localStorage.getItem('steinid_offline_data') || '[]');
+
+// Connection checker
+function checkConnection() {
+    const dot = document.getElementById('connection-dot');
+    const text = document.getElementById('connection-text');
+    
+    fetch('/health', { method: 'HEAD' })
+        .then(() => {
+            dot.style.background = '#28a745';
+            text.textContent = 'Online';
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 1000);
+        })
+        .catch(() => {
+            dot.style.background = '#dc3545';
+            text.textContent = 'Offline';
+        });
+}
+
+// Check connection every 10 seconds
+setInterval(checkConnection, 10000);
+
+// Offline form submission
+document.getElementById('offlineForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = {
+        id: Date.now(),
+        farge: document.getElementById('offline-farge').value,
+        storrelse: document.getElementById('offline-storrelse').value,
+        vekt: document.getElementById('offline-vekt').value,
+        funnet_sted: document.getElementById('offline-sted').value,
+        detaljer: document.getElementById('offline-detaljer').value,
+        timestamp: new Date().toISOString(),
+        synced: false
+    };
+    
+    // Handle image if uploaded
+    const imageInput = document.getElementById('offline-image');
+    if (imageInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            formData.image = e.target.result;
+            saveOfflineData(formData);
+        };
+        reader.readAsDataURL(imageInput.files[0]);
+    } else {
+        saveOfflineData(formData);
+    }
+});
+
+function saveOfflineData(data) {
+    offlineData.push(data);
+    localStorage.setItem('steinid_offline_data', JSON.stringify(offlineData));
+    
+    // Show success message
+    showToast('Stein registrert offline!', 'Data lagres lokalt og analyseres når du kommer online igjen.', 'success');
+    
+    // Clear form
+    document.getElementById('offlineForm').reset();
+}
+
+function showToast(title, message, type = 'info') {
+    const toastContainer = document.querySelector('.toast-container') || createToastContainer();
+    
+    const toast = document.createElement('div');
+    toast.className = `toast show`;
+    toast.innerHTML = `
+        <div class="toast-header">
+            <i class="fas fa-${type === 'success' ? 'check-circle text-success' : 'info-circle text-info'} me-2"></i>
+            <strong class="me-auto">${title}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body">
+            ${message}
+        </div>
+    `;
+    
+    toastContainer.appendChild(toast);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        if (toast.parentNode) {
+            toast.parentNode.removeChild(toast);
+        }
+    }, 5000);
+}
+
+function createToastContainer() {
+    const container = document.createElement('div');
+    container.className = 'toast-container';
+    document.body.appendChild(container);
+    return container;
+}
+
+// Sync offline data when online
+window.addEventListener('online', function() {
+    if (offlineData.length > 0) {
+        syncOfflineData();
+    }
+});
+
+function syncOfflineData() {
+    offlineData.forEach(data => {
+        if (!data.synced) {
+            // Try to sync with server
+            fetch('/api/identifiser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                data.synced = true;
+                data.result = result;
+                localStorage.setItem('steinid_offline_data', JSON.stringify(offlineData));
+            })
+            .catch(err => {
+                console.log('Sync failed for item:', data.id);
+            });
+        }
+    });
+}
+
+// Show offline data count
+document.addEventListener('DOMContentLoaded', function() {
+    const unsyncedCount = offlineData.filter(item => !item.synced).length;
+    if (unsyncedCount > 0) {
+        showToast('Offline data funnet', `${unsyncedCount} steiner venter på analyse når du kommer online.`, 'info');
+    }
+});
+</script>
+{% endblock %}

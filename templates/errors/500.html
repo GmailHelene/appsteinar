@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Serverfeil - SteinID Pro{% endblock %}
+
+{% block content %}
+<div class="error-container">
+    <div class="text-center">
+        <div class="error-code">500</div>
+        <h2 class="error-message">Noe gikk galt</h2>
+        <p class="lead text-muted mb-4">
+            Det oppstod en intern serverfeil. Vi jobber med å løse problemet.
+        </p>
+        
+        <div class="mb-4">
+            <button class="btn btn-primary btn-lg me-3" onclick="window.location.reload()">
+                <i class="fas fa-sync"></i>
+                Prøv igjen
+            </button>
+            <a href="{{ url_for('index') }}" class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-home"></i>
+                Gå til forsiden
+            </a>
+        </div>
+        
+        <div class="alert alert-info">
+            <h6><i class="fas fa-info-circle"></i> Tips:</h6>
+            <ul class="text-start mb-0">
+                <li>Sjekk internettforbindelsen din</li>
+                <li>Prøv å laste siden på nytt</li>
+                <li>Kom tilbake om noen minutter</li>
+                <li>Bruk offline-funksjoner i mellomtiden</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

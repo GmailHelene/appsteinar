@@ -1,0 +1,303 @@
+{% extends "base.html" %}
+
+{% block title %}Identifiser stein - SteinID Pro{% endblock %}
+
+{% block content %}
+<div class="identifikator-container">
+    <div class="container">
+        <!-- Progress Steps -->
+        <div class="progress-steps">
+            <div class="progress-step active" id="step-1">1</div>
+            <div class="progress-step" id="step-2">2</div>
+            <div class="progress-step" id="step-3">3</div>
+        </div>
+        
+        <!-- Header -->
+        <div class="text-center mb-4">
+            <h1 class="display-5 fw-bold">
+                <i class="fas fa-search text-gradient"></i>
+                Identifiser din stein
+            </h1>
+            <p class="lead text-muted">
+                Last opp et bilde eller beskriv steinen, så analyserer vår AI den for deg
+            </p>
+        </div>
+        
+        <div class="row">
+            <!-- Upload Section -->
+            <div class="col-lg-6 mb-4">
+                <div class="card border-0 shadow-custom">
+                    <div class="card-header bg-gradient text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-camera"></i>
+                            Last opp bilde
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Upload Zone -->
+                        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('imageInput').click()">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <div class="upload-text">
+                                Klikk for å laste opp bilde
+                            </div>
+                            <div class="upload-hint">
+                                eller dra og slipp bildefilen her
+                            </div>
+                            <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                        </div>
+                        
+                        <!-- Image Preview -->
+                        <div id="imagePreview" class="d-none">
+                            <div class="image-preview">
+                                <img id="previewImg" src="" alt="Stein forhåndsvisning">
+                                <div class="image-preview-overlay">
+                                    <div class="image-actions">
+                                        <button class="btn btn-warning btn-sm" onclick="rotateImage()">
+                                            <i class="fas fa-redo"></i> Roter
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" onclick="removeImage()">
+                                            <i class="fas fa-trash"></i> Fjern
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Camera Capture (Mobile) -->
+                        <div class="text-center mt-3">
+                            <button class="btn btn-outline-primary" onclick="captureFromCamera()">
+                                <i class="fas fa-camera"></i>
+                                Ta bilde med kamera
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Properties Form -->
+            <div class="col-lg-6 mb-4">
+                <div class="card border-0 shadow-custom">
+                    <div class="card-header bg-gradient text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-clipboard-list"></i>
+                            Beskriv steinen
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="identificationForm">
+                            <div class="property-grid">
+                                <!-- Farge -->
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="farge" name="farge" placeholder="Farge">
+                                    <label for="farge">
+                                        <i class="fas fa-palette"></i> Farge
+                                    </label>
+                                    <div class="quick-options">
+                                        <span class="quick-option" onclick="selectQuickOption('farge', 'Rød')">Rød</span>
+                                        <span class="quick-option" onclick="selectQuickOption('farge', 'Grå')">Grå</span>
+                                        <span class="quick-option" onclick="selectQuickOption('farge', 'Hvit')">Hvit</span>
+                                        <span class="quick-option" onclick="selectQuickOption('farge', 'Svart')">Svart</span>
+                                        <span class="quick-option" onclick="selectQuickOption('farge', 'Brun')">Brun</span>
+                                        <span class="quick-option" onclick="selectQuickOption('farge', 'Gul')">Gul</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Størrelse -->
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="storrelse" name="storrelse" placeholder="Størrelse">
+                                    <label for="storrelse">
+                                        <i class="fas fa-ruler"></i> Størrelse
+                                    </label>
+                                    <div class="quick-options">
+                                        <span class="quick-option" onclick="selectQuickOption('storrelse', 'Liten (< 2cm)')">Liten</span>
+                                        <span class="quick-option" onclick="selectQuickOption('storrelse', 'Medium (2-10cm)')">Medium</span>
+                                        <span class="quick-option" onclick="selectQuickOption('storrelse', 'Stor (> 10cm)')">Stor</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Vekt -->
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="vekt" name="vekt" placeholder="Vekt">
+                                    <label for="vekt">
+                                        <i class="fas fa-weight"></i> Vekt
+                                    </label>
+                                    <div class="quick-options">
+                                        <span class="quick-option" onclick="selectQuickOption('vekt', 'Lett (< 50g)')">Lett</span>
+                                        <span class="quick-option" onclick="selectQuickOption('vekt', 'Middels (50-500g)')">Middels</span>
+                                        <span class="quick-option" onclick="selectQuickOption('vekt', 'Tung (> 500g)')">Tung</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Hardhet -->
+                                <div class="form-floating">
+                                    <select class="form-select" id="hardhet" name="hardhet">
+                                        <option value="">Velg hardhet</option>
+                                        <option value="1-2 (Veldig myk, ripes av negl)">1-2 (Veldig myk)</option>
+                                        <option value="3-4 (Myk, ripes av mynt)">3-4 (Myk)</option>
+                                        <option value="5-6 (Medium, riper glass)">5-6 (Medium)</option>
+                                        <option value="7-8 (Hard, riper stål)">7-8 (Hard)</option>
+                                        <option value="9-10 (Veldig hard, diamant)">9-10 (Veldig hard)</option>
+                                    </select>
+                                    <label for="hardhet">
+                                        <i class="fas fa-hammer"></i> Hardhet (Mohs skala)
+                                    </label>
+                                </div>
+                                
+                                <!-- Transparens -->
+                                <div class="form-floating">
+                                    <select class="form-select" id="transparens" name="transparens">
+                                        <option value="">Velg transparens</option>
+                                        <option value="Gjennomsiktig">Gjennomsiktig</option>
+                                        <option value="Gjennomskinelig">Gjennomskinelig</option>
+                                        <option value="Ugjennomsiktig">Ugjennomsiktig</option>
+                                    </select>
+                                    <label for="transparens">
+                                        <i class="fas fa-eye"></i> Transparens
+                                    </label>
+                                </div>
+                                
+                                <!-- Glans -->
+                                <div class="form-floating">
+                                    <select class="form-select" id="glans" name="glans">
+                                        <option value="">Velg glans</option>
+                                        <option value="Metallisk">Metallisk</option>
+                                        <option value="Glassaktig">Glassaktig</option>
+                                        <option value="Perlemor">Perlemor</option>
+                                        <option value="Matt">Matt</option>
+                                        <option value="Fett">Fett</option>
+                                    </select>
+                                    <label for="glans">
+                                        <i class="fas fa-star"></i> Glans
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Funnet sted -->
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="funnet_sted" name="funnet_sted" placeholder="Hvor ble steinen funnet?">
+                                <label for="funnet_sted">
+                                    <i class="fas fa-map-marker-alt"></i> Hvor ble steinen funnet?
+                                </label>
+                                <div class="quick-options">
+                                    <span class="quick-option" onclick="selectQuickOption('funnet_sted', 'Strand')">Strand</span>
+                                    <span class="quick-option" onclick="selectQuickOption('funnet_sted', 'Fjell')">Fjell</span>
+                                    <span class="quick-option" onclick="selectQuickOption('funnet_sted', 'Elv')">Elv</span>
+                                    <span class="quick-option" onclick="selectQuickOption('funnet_sted', 'Skog')">Skog</span>
+                                    <span class="quick-option" onclick="selectQuickOption('funnet_sted', 'Hage')">Hage</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Andre detaljer -->
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" id="detaljer" name="detaljer" 
+                                          style="height: 100px" placeholder="Andre observasjoner..."></textarea>
+                                <label for="detaljer">
+                                    <i class="fas fa-comment"></i> Andre detaljer
+                                </label>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="analyze-button" id="analyzeBtn">
+                                    <i class="fas fa-brain"></i>
+                                    Analyser stein med AI
+                                </button>
+                                
+                                <button type="button" class="btn btn-outline-secondary" 
+                                        onclick="showIdentificationTips()">
+                                    <i class="fas fa-lightbulb"></i>
+                                    Vis identifikasjonstips
+                                </button>
+                                
+                                <button type="button" class="btn btn-outline-info" 
+                                        onclick="clearForm()">
+                                    <i class="fas fa-redo"></i>
+                                    Start på nytt
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Results Section -->
+        <div id="resultsContainer" class="d-none">
+            <div class="result-container">
+                <div class="result-header">
+                    <h3 class="mb-0">
+                        <i class="fas fa-microscope"></i>
+                        AI Analyse Resultat
+                    </h3>
+                    <small>Basert på oppgitt informasjon og bilde</small>
+                </div>
+                
+                <!-- Confidence Indicator -->
+                <div class="result-content" style="padding-bottom: 1rem;">
+                    <div class="confidence-indicator">
+                        <span class="fw-bold">Analysetillit:</span>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" id="confidenceFill" style="width: 0%"></div>
+                        </div>
+                        <span id="confidenceText">0%</span>
+                    </div>
+                </div>
+                
+                <div class="result-content" id="resultContent">
+                    <!-- AI resultatet vises her -->
+                </div>
+                
+                <div class="result-actions">
+                    <button class="btn btn-primary" onclick="analyzeAgain()">
+                        <i class="fas fa-redo"></i>
+                        Analyser igjen
+                    </button>
+                    <button class="btn btn-success" onclick="shareResult()">
+                        <i class="fas fa-share"></i>
+                        Del resultat
+                    </button>
+                    <button class="btn btn-info" onclick="saveResult()">
+                        <i class="fas fa-bookmark"></i>
+                        Lagre resultat
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="exploreCategory()">
+                        <i class="fas fa-layer-group"></i>
+                        Utforsk kategori
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tips Modal -->
+<div class="modal fade tips-modal" id="tipsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-lightbulb"></i>
+                    Tips for bedre steinidentifikasjon
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="tips-list" id="tipsList">
+                    <!-- Tips lastes dynamisk -->
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Lukk
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/identifikator.js') }}"></script>
+{% endblock %}

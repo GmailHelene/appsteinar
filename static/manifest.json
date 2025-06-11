@@ -1,0 +1,74 @@
+{
+  "name": "Stein Identifikator Pro",
+  "short_name": "SteinID",
+  "description": "AI-drevet steinidentifikasjon med bildeanalyse",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#2c3e50",
+  "theme_color": "#e67e22",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "no",
+  "categories": ["education", "science", "utilities"],
+  "icons": [
+    {
+      "src": "/static/images/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/static/images/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/static/images/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/static/images/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Desktop steinidentifikasjon"
+    },
+    {
+      "src": "/static/images/screenshot-mobile.png",
+      "sizes": "375x667",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mobil steinidentifikasjon"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Identifiser stein",
+      "short_name": "Identifiser",
+      "description": "Start steinidentifikasjon med kamera",
+      "url": "/identifikator",
+      "icons": [
+        {
+          "src": "/static/images/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Se kategorier",
+      "short_name": "Kategorier", 
+      "description": "Utforsk steinkategorier",
+      "url": "/kategorier",
+      "icons": [
+        {
+          "src": "/static/images/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
