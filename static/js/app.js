@@ -358,23 +358,6 @@ function syncOfflineData() {
     }
 }
 
-// Camera Capture
-function captureFromCamera() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.capture = 'camera';
-    
-    input.onchange = function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            handleImageFile(file);
-        }
-    };
-    
-    input.click();
-}
-
 function handleImageFile(file) {
     if (file.size > 16 * 1024 * 1024) { // 16MB limit
         showToast('Fil for stor', 'Bildet må være mindre enn 16MB.', 'error');
@@ -560,7 +543,6 @@ window.SteinID = {
     trackEvent,
     saveToStorage,
     loadFromStorage,
-    captureFromCamera,
     selectQuickOption,
     clearForm,
     updateProgressStep

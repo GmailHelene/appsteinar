@@ -6,7 +6,7 @@ En moderne Progressive Web App (PWA) for identifikasjon av steiner, bergarter og
 
 - 📱 **PWA** - Installer som app på mobil/desktop
 - 🤖 **AI-analyse** - GPT-4 Vision for bildeanalyse
-- 📸 **Bildegjenkjenning** - Last opp eller ta bilder
+- 📸 **Bildegjenkjenning** - Last opp bilder
 - 🔄 **Offline-støtte** - Fungerer uten internett
 - 📚 **Lærerike kategorier** - Utforsk steintyper
 - 💾 **Lokal lagring** - Analyser lagres på enheten

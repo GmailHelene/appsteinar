@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, flash, redirect, url_for
-import openai
+from openai import OpenAI
 import os
 import hashlib
 import json
@@ -18,8 +18,9 @@ config_name = os.environ.get('FLASK_ENV', 'development')
 app.config.from_object(config[config_name])
 
 # OpenAI setup
+client = None
 if app.config['OPENAI_API_KEY']:
-    openai.api_key = app.config['OPENAI_API_KEY']
+    client = OpenAI(api_key=app.config['OPENAI_API_KEY'])
 
 # Cache for resultater
 results_cache = {}
@@ -51,7 +52,7 @@ def compress_image(image_data, max_size=(800, 600), quality=85):
 
 def hent_gpt_svar(prompt, image_data=None):
     """Hent svar fra GPT med eller uten bilde"""
-    if not app.config['OPENAI_API_KEY']:
+    if not client:
         return "Feil: Ingen OpenAI API-nøkkel konfigurert. Kontakt administrator."
     
     try:
@@ -101,8 +102,8 @@ def hent_gpt_svar(prompt, image_data=None):
         else:
             messages.append({"role": "user", "content": prompt})
         
-        response = openai.ChatCompletion.create(
-            model="gpt-4-vision-preview" if image_data else "gpt-3.5-turbo",
+        response = client.chat.completions.create(
+            model="gpt-4o" if image_data else "gpt-4o-mini",
             messages=messages,
             max_tokens=1500,
             temperature=0.7
@@ -332,7 +333,7 @@ def health_check():
         'status': 'healthy',
         'timestamp': datetime.now().isoformat(),
         'version': '1.0.0',
-        'openai_configured': bool(app.config['OPENAI_API_KEY'])
+        'openai_configured': client is not None
     })
 
 # Error handlers
