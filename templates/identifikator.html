@@ -7,9 +7,27 @@
     <div class="container">
         <!-- Progress Steps -->
         <div class="progress-steps">
-            <div class="progress-step active" id="step-1">1</div>
-            <div class="progress-step" id="step-2">2</div>
-            <div class="progress-step" id="step-3">3</div>
+            <div class="progress-step active" id="step-1">
+                <div class="step-number">1</div>
+                <div class="step-info">
+                    <div class="step-title">Last opp bilde</div>
+                    <div class="step-description">Ta eller velg et tydelig bilde av steinen</div>
+                </div>
+            </div>
+            <div class="progress-step" id="step-2">
+                <div class="step-number">2</div>
+                <div class="step-info">
+                    <div class="step-title">Beskriv egenskaper</div>
+                    <div class="step-description">Fyll ut informasjon om steinen</div>
+                </div>
+            </div>
+            <div class="progress-step" id="step-3">
+                <div class="step-number">3</div>
+                <div class="step-info">
+                    <div class="step-title">Få AI-analyse</div>
+                    <div class="step-description">Motta detaljert identifikasjon</div>
+                </div>
+            </div>
         </div>
         
         <!-- Header -->
@@ -22,6 +40,42 @@
                 Last opp et bilde eller beskriv steinen, så analyserer vår AI den for deg
             </p>
         </div>
+
+        <!-- Step Help Boxes -->
+        <div class="step-help-container mb-4">
+            <div id="step1-help" class="step-help alert alert-info">
+                <h6><i class="fas fa-info-circle"></i> Steg 1: Last opp bilde</h6>
+                <p class="mb-2">For best mulig analyse, ta et tydelig bilde av steinen:</p>
+                <ul class="mb-0">
+                    <li>Bruk god belysning, helst dagslys</li>
+                    <li>Plasser steinen på en nøytral bakgrunn</li>
+                    <li>Inkluder en gjenstand for størrelsesreferanse (mynt, linjal)</li>
+                    <li>Ta gjerne flere bilder fra forskjellige vinkler</li>
+                </ul>
+            </div>
+            
+            <div id="step2-help" class="step-help alert alert-success d-none">
+                <h6><i class="fas fa-check-circle"></i> Steg 2: Beskriv egenskaper</h6>
+                <p class="mb-2">Fyll ut så mange feltene som mulig for bedre analyse:</p>
+                <ul class="mb-0">
+                    <li><strong>Hardhet:</strong> Test med mynt (3) eller glass (5.5)</li>
+                    <li><strong>Transparens:</strong> Kan du se gjennom steinen?</li>
+                    <li><strong>Glans:</strong> Hvordan reflekterer den lys?</li>
+                    <li><strong>Funnsted:</strong> Hvor fant du steinen?</li>
+                </ul>
+            </div>
+            
+            <div id="step3-help" class="step-help alert alert-warning d-none">
+                <h6><i class="fas fa-cog"></i> Steg 3: AI-analyse</h6>
+                <p class="mb-2">Vår AI analyserer nå steinen din basert på:</p>
+                <ul class="mb-0">
+                    <li>Bildeanalyse med avansert dybdelæring</li>
+                    <li>Geologisk ekspertise og mineralogi</li>
+                    <li>Sammenlikning med database av kjente steiner</li>
+                    <li>Dine beskrivelser og målinger</li>
+                </ul>
+            </div>
+        </div>
         
         <div class="row">
             <!-- Upload Section -->
@@ -29,13 +83,30 @@
                 <div class="card border-0 shadow-custom">
                     <div class="card-header bg-gradient text-white">
                         <h5 class="mb-0">
-                            <i class="fas fa-camera"></i>
+                            <i class="fas fa-upload"></i>
                             Last opp bilde
                         </h5>
-                    </div>
-                    <div class="card-body">
-                        <!-- Upload Zone -->
-                        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('imageInput').click()">
+                    </div>                        <div class="card-body">
+                            <!-- Steg 1 hjelpetekst -->
+                            <div class="step-help" id="step1-help">
+                                <div class="help-box">
+                                    <div class="help-icon">
+                                        <i class="fas fa-info-circle"></i>
+                                    </div>
+                                    <div class="help-content">
+                                        <h6>Tips for beste bilderesultat:</h6>
+                                        <ul>
+                                            <li>Ta bildet i godt, naturlig lys</li>
+                                            <li>Sørg for at steinen fyller mesteparten av bildet</li>
+                                            <li>Unngå refleksjoner og skygger</li>
+                                            <li>Plasser steinen på en nøytral bakgrunn</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Upload Zone -->
+                            <div class="upload-zone" id="uploadZone" onclick="document.getElementById('imageInput').click()">
                             <div class="upload-icon">
                                 <i class="fas fa-cloud-upload-alt"></i>
                             </div>
@@ -78,6 +149,19 @@
                         </h5>
                     </div>
                     <div class="card-body">
+                        <!-- Steg 2 hjelpetekst -->
+                        <div class="step-help" id="step2-help">
+                            <div class="help-box">
+                                <div class="help-icon">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </div>
+                                <div class="help-content">
+                                    <h6>Fyll ut så mange egenskaper som mulig:</h6>
+                                    <p>Jo mer informasjon du gir, desto bedre kan AI-en identifisere steinen din. Bruk raskvalg-knappene eller skriv inn egne verdier.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <form id="identificationForm">
                             <div class="property-grid">
                                 <!-- Farge -->
@@ -126,11 +210,16 @@
                                 <div class="form-floating">
                                     <select class="form-select" id="hardhet" name="hardhet">
                                         <option value="">Velg hardhet</option>
-                                        <option value="1-2 (Veldig myk, ripes av negl)">1-2 (Veldig myk)</option>
-                                        <option value="3-4 (Myk, ripes av mynt)">3-4 (Myk)</option>
-                                        <option value="5-6 (Medium, riper glass)">5-6 (Medium)</option>
-                                        <option value="7-8 (Hard, riper stål)">7-8 (Hard)</option>
-                                        <option value="9-10 (Veldig hard, diamant)">9-10 (Veldig hard)</option>
+                                        <option value="1">1 - Meget myk (kalk)</option>
+                                        <option value="2">2 - Myk (gips)</option>
+                                        <option value="3">3 - Mynt (kalkitt)</option>
+                                        <option value="4">4 - Kniv (fluoritt)</option>
+                                        <option value="5">5 - Glass (apatitt)</option>
+                                        <option value="6">6 - Stål (feltspat)</option>
+                                        <option value="7">7 - Kvarts</option>
+                                        <option value="8">8 - Topas</option>
+                                        <option value="9">9 - Korund</option>
+                                        <option value="10">10 - Diamant</option>
                                     </select>
                                     <label for="hardhet">
                                         <i class="fas fa-hammer"></i> Hardhet (Mohs skala)
@@ -141,9 +230,9 @@
                                 <div class="form-floating">
                                     <select class="form-select" id="transparens" name="transparens">
                                         <option value="">Velg transparens</option>
-                                        <option value="Gjennomsiktig">Gjennomsiktig</option>
-                                        <option value="Gjennomskinelig">Gjennomskinelig</option>
-                                        <option value="Ugjennomsiktig">Ugjennomsiktig</option>
+                                        <option value="gjennomsiktig">Gjennomsiktig</option>
+                                        <option value="gjennomskinelig">Gjennomskinelig</option>
+                                        <option value="ugjennomsiktig">Ugjennomsiktig</option>
                                     </select>
                                     <label for="transparens">
                                         <i class="fas fa-eye"></i> Transparens
@@ -154,59 +243,63 @@
                                 <div class="form-floating">
                                     <select class="form-select" id="glans" name="glans">
                                         <option value="">Velg glans</option>
-                                        <option value="Metallisk">Metallisk</option>
-                                        <option value="Glassaktig">Glassaktig</option>
-                                        <option value="Perlemor">Perlemor</option>
-                                        <option value="Matt">Matt</option>
-                                        <option value="Fett">Fett</option>
+                                        <option value="metallisk">Metallisk</option>
+                                        <option value="glassaktig">Glassaktig</option>
+                                        <option value="matt">Matt</option>
+                                        <option value="silkeaktig">Silkeaktig</option>
+                                        <option value="fettet">Fettet</option>
+                                        <option value="perlemor">Perlemor</option>
                                     </select>
                                     <label for="glans">
-                                        <i class="fas fa-star"></i> Glans
+                                        <i class="fas fa-sun"></i> Glans
+                                    </label>
+                                </div>
+                                
+                                <!-- Magnetisk -->
+                                <div class="form-floating">
+                                    <select class="form-select" id="magnetisk" name="magnetisk">
+                                        <option value="">Magnetisk test</option>
+                                        <option value="ja">Ja - tiltrekkes av magnet</option>
+                                        <option value="nei">Nei - ikke magnetisk</option>
+                                        <option value="svakt">Svakt magnetisk</option>
+                                    </select>
+                                    <label for="magnetisk">
+                                        <i class="fas fa-magnet"></i> Magnetisk
+                                    </label>
+                                </div>
+                                
+                                <!-- Funnet sted -->
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="funnet_sted" name="funnet_sted" placeholder="Funnet sted">
+                                    <label for="funnet_sted">
+                                        <i class="fas fa-map-marker-alt"></i> Hvor ble steinen funnet?
+                                    </label>
+                                    <div class="quick-options">
+                                        <span class="quick-option" onclick="selectQuickOption('funnet_sted', 'Strand')">Strand</span>
+                                        <span class="quick-option" onclick="selectQuickOption('funnet_sted', 'Fjell')">Fjell</span>
+                                        <span class="quick-option" onclick="selectQuickOption('funnet_sted', 'Elv')">Elv</span>
+                                        <span class="quick-option" onclick="selectQuickOption('funnet_sted', 'Hage')">Hage</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Detaljer -->
+                                <div class="form-floating">
+                                    <textarea class="form-control" id="detaljer" name="detaljer" placeholder="Andre detaljer" style="height: 100px"></textarea>
+                                    <label for="detaljer">
+                                        <i class="fas fa-info-circle"></i> Andre detaljer
                                     </label>
                                 </div>
                             </div>
                             
-                            <!-- Funnet sted -->
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="funnet_sted" name="funnet_sted" placeholder="Hvor ble steinen funnet?">
-                                <label for="funnet_sted">
-                                    <i class="fas fa-map-marker-alt"></i> Hvor ble steinen funnet?
-                                </label>
-                                <div class="quick-options">
-                                    <span class="quick-option" onclick="selectQuickOption('funnet_sted', 'Strand')">Strand</span>
-                                    <span class="quick-option" onclick="selectQuickOption('funnet_sted', 'Fjell')">Fjell</span>
-                                    <span class="quick-option" onclick="selectQuickOption('funnet_sted', 'Elv')">Elv</span>
-                                    <span class="quick-option" onclick="selectQuickOption('funnet_sted', 'Skog')">Skog</span>
-                                    <span class="quick-option" onclick="selectQuickOption('funnet_sted', 'Hage')">Hage</span>
-                                </div>
-                            </div>
-                            
-                            <!-- Andre detaljer -->
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" id="detaljer" name="detaljer" 
-                                          style="height: 100px" placeholder="Andre observasjoner..."></textarea>
-                                <label for="detaljer">
-                                    <i class="fas fa-comment"></i> Andre detaljer
-                                </label>
-                            </div>
-                            
-                            <!-- Action Buttons -->
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="analyze-button" id="analyzeBtn">
-                                    <i class="fas fa-brain"></i>
-                                    Analyser stein med AI
+                            <!-- Analyse knapp -->
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg" id="analyzeBtn">
+                                    <i class="fas fa-search"></i>
+                                    Analyser stein
                                 </button>
-                                
-                                <button type="button" class="btn btn-outline-secondary" 
-                                        onclick="showIdentificationTips()">
+                                <button type="button" class="btn btn-outline-secondary ms-2" onclick="showIdentificationTips()">
                                     <i class="fas fa-lightbulb"></i>
-                                    Vis identifikasjonstips
-                                </button>
-                                
-                                <button type="button" class="btn btn-outline-info" 
-                                        onclick="clearForm()">
-                                    <i class="fas fa-redo"></i>
-                                    Start på nytt
+                                    Tips
                                 </button>
                             </div>
                         </form>
@@ -217,6 +310,19 @@
         
         <!-- Results Section -->
         <div id="resultsContainer" class="d-none">
+            <!-- Steg 3 hjelpetekst -->
+            <div class="step-help" id="step3-help" style="display: none;">
+                <div class="help-box">
+                    <div class="help-icon">
+                        <i class="fas fa-microscope"></i>
+                    </div>
+                    <div class="help-content">
+                        <h6>AI-analysen er ferdig!</h6>
+                        <p>Nedenfor finner du en detaljert analyse av steinen din. Bruk handlingsknappene for å lagre, dele eller utforske lignende steiner.</p>
+                    </div>
+                </div>
+            </div>
+            
             <div class="result-container">
                 <div class="result-header">
                     <h3 class="mb-0">

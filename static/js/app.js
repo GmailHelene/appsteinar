@@ -461,6 +461,11 @@ function updateProgressStep(stepNumber) {
             step.classList.remove('active', 'completed');
         }
     });
+    
+    // Update help visibility if function exists (identifikator page)
+    if (typeof updateHelpVisibility === 'function') {
+        updateHelpVisibility(stepNumber);
+    }
 }
 
 // Notification permissions
@@ -484,7 +489,7 @@ function requestNotificationPermission() {
     }
 }
 
-function showNotification(title, body, icon = '/static/images/icon-192x192.png') {
+function showNotification(title, body, icon = '/static/icon-192x192.png') {
     if ('serviceWorker' in navigator && Notification.permission === 'granted') {
         navigator.serviceWorker.ready.then(registration => {
             registration.showNotification(title, {

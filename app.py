@@ -308,23 +308,30 @@ def hent_kategori_info():
 @app.route('/api/forslag', methods=['GET'])
 def hent_identifikasjon_tips():
     """Hent tips for steinidentifikasjon"""
-    tips = [
-        "Ta et tydelig bilde i god belysning",
-        "Mål steinens dimensjoner nøyaktig", 
-        "Test hardhet med en mynt (hardhet ~3) eller glass (hardhet ~5.5)",
-        "Noter om steinen er magnetisk",
-        "Beskriv glansen (metallisk, glassaktig, matt)",
-        "Sjekk om steinen er gjennomsiktig, gjennomskinelig eller ugjennomsiktig",
-        "Noter hvor steinen ble funnet (strand, fjell, elv, etc.)",
-        "Observer eventuelle krystallformer eller lag",
-        "Test om steinen reagerer med eddiksyre (bobler = kalkstein)",
-        "Noter om steinen har særlig tyngde (tung = kanskje metallholdig)"
-    ]
-    
-    return jsonify({
-        'success': True,
-        'tips': tips
-    })
+    try:
+        tips = [
+            "Ta et tydelig bilde i god belysning",
+            "Mål steinens dimensjoner nøyaktig", 
+            "Test hardhet med en mynt (hardhet ~3) eller glass (hardhet ~5.5)",
+            "Noter om steinen er magnetisk",
+            "Beskriv glansen (metallisk, glassaktig, matt)",
+            "Sjekk om steinen er gjennomsiktig, gjennomskinelig eller ugjennomsiktig",
+            "Noter hvor steinen ble funnet (strand, fjell, elv, etc.)",
+            "Observer eventuelle krystallformer eller lag",
+            "Test om steinen reagerer med eddiksyre (bobler = kalkstein)",
+            "Noter om steinen har særlig tyngde (tung = kanskje metallholdig)"
+        ]
+        
+        return jsonify({
+            'success': True,
+            'tips': tips
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': f'Feil ved henting av tips: {str(e)}'
+        }), 500
 
 @app.route('/health')
 def health_check():

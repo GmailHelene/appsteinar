@@ -248,6 +248,11 @@ function displayResult(result) {
     
     // Show results container
     resultsContainer.classList.remove('d-none');
+    
+    // Update progress to step 3 and show help
+    updateProgressStep(3);
+    
+    // Scroll to results
     resultsContainer.scrollIntoView({ behavior: 'smooth' });
     
     // Display content
@@ -336,6 +341,9 @@ function setupProgressTracking() {
             field.addEventListener('change', checkFormProgress);
         });
     }
+    
+    // Initialize help text visibility
+    updateHelpVisibility(1);
 }
 
 function checkFormProgress() {
@@ -347,6 +355,45 @@ function checkFormProgress() {
     if (filledFields > 0 || imageUploaded) {
         updateProgressStep(2);
     }
+}
+
+function updateHelpVisibility(currentStep) {
+    // Hide all help boxes
+    document.querySelectorAll('.step-help').forEach(help => {
+        help.classList.add('d-none');
+    });
+    
+    // Show current step help
+    const currentHelp = document.getElementById(`step${currentStep}-help`);
+    if (currentHelp) {
+        currentHelp.classList.remove('d-none');
+    }
+}
+
+function showFormFieldHelp() {
+    // Add dynamic help text to form fields
+    const hardhetField = document.getElementById('hardhet');
+    const transparensField = document.getElementById('transparens');
+    const glansField = document.getElementById('glans');
+    
+    if (hardhetField && !hardhetField.querySelector('.field-help')) {
+        addFieldHelp(hardhetField, 'Test hardhet med mynt (3) eller glass (5.5)');
+    }
+    
+    if (transparensField && !transparensField.querySelector('.field-help')) {
+        addFieldHelp(transparensField, 'Kan du se gjennom steinen?');
+    }
+    
+    if (glansField && !glansField.querySelector('.field-help')) {
+        addFieldHelp(glansField, 'Hvordan reflekterer steinen lys?');
+    }
+}
+
+function addFieldHelp(fieldContainer, helpText) {
+    const help = document.createElement('div');
+    help.className = 'field-help';
+    help.innerHTML = `<small class="text-muted"><i class="fas fa-info-circle"></i> ${helpText}</small>`;
+    fieldContainer.parentNode.appendChild(help);
 }
 
 // Offline analysis storage
@@ -500,6 +547,83 @@ function exploreCategory() {
     }
     
     window.location.href = `/kategorier#${category}`;
+}
+
+// Quick option selection
+function selectQuickOption(fieldId, value) {
+    const field = document.getElementById(fieldId);
+    if (field) {
+        field.value = value;
+        field.dispatchEvent(new Event('change'));
+        
+        // Visual feedback
+        const options = field.parentNode.querySelectorAll('.quick-option');
+        options.forEach(option => {
+            option.classList.remove('selected');
+            if (option.textContent.includes(value)) {
+                option.classList.add('selected');
+            }
+        });
+    }
+}
+
+// Image functions
+function rotateImage() {
+    const img = document.getElementById('previewImg');
+    if (img) {
+        const currentRotation = img.dataset.rotation || 0;
+        const newRotation = (parseInt(currentRotation) + 90) % 360;
+        img.style.transform = `rotate(${newRotation}deg)`;
+        img.dataset.rotation = newRotation;
+    }
+}
+
+function removeImage() {
+    const preview = document.getElementById('imagePreview');
+    const uploadZone = document.getElementById('uploadZone');
+    const imageInput = document.getElementById('imageInput');
+    
+    if (preview && uploadZone && imageInput) {
+        preview.classList.add('d-none');
+        uploadZone.classList.remove('d-none');
+        imageInput.value = '';
+        
+        // Reset progress to step 1
+        updateProgressStep(1);
+    }
+}
+
+function displayImagePreview(src) {
+    const preview = document.getElementById('imagePreview');
+    const uploadZone = document.getElementById('uploadZone');
+    const previewImg = document.getElementById('previewImg');
+    
+    if (preview && uploadZone && previewImg) {
+        previewImg.src = src;
+        previewImg.style.transform = 'rotate(0deg)';
+        previewImg.dataset.rotation = 0;
+        
+        uploadZone.classList.add('d-none');
+        preview.classList.remove('d-none');
+    }
+}
+
+function clearForm() {
+    const form = document.getElementById('identificationForm');
+    if (form) {
+        form.reset();
+        
+        // Clear quick option selections
+        document.querySelectorAll('.quick-option').forEach(option => {
+            option.classList.remove('selected');
+        });
+        
+        // Clear image preview
+        removeImage();
+        
+        // Hide results
+        hideResults();
+    }
 }
 
 // Utility functions

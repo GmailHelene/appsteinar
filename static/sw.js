@@ -1,11 +1,17 @@
-const CACHE_NAME = 'steinid-v1';
+const CACHE_NAME = 'steinid-v2';
 const urlsToCache = [
     '/',
-    '/static/style.css',
-    '/static/app.js',
+    '/static/css/style.css',
+    '/static/js/app.js',
+    '/static/js/identifikator.js',
+    '/static/js/kategorier.js',
     '/static/manifest.json',
-    '/static/icon-192x192.png',
-    '/static/icon-512x512.png'
+    '/static/images/icon-192x192.png',
+    '/static/images/icon-512x512.png',
+    '/static/images/favicon-16x16.png',
+    '/static/images/favicon-32x32.png',
+    '/static/images/favicon.ico',
+    '/static/images/apple-touch-icon.png'
 ];
 
 // Installer service worker

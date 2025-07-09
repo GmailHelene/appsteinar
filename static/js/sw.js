@@ -2,8 +2,8 @@
 // STEINID PRO - SERVICE WORKER
 // ========================================
 
-const CACHE_NAME = 'steinid-pro-v1.2.0';
-const CACHE_VERSION = '1.2.0';
+const CACHE_NAME = 'steinid-pro-v1.4.1';
+const CACHE_VERSION = '1.4.1';
 
 // Files to cache
 const urlsToCache = [
@@ -17,6 +17,9 @@ const urlsToCache = [
     '/static/js/kategorier.js',
     '/static/images/icon-192x192.png',
     '/static/images/icon-512x512.png',
+    '/static/images/favicon.ico',
+    '/static/images/favicon-32x32.png',
+    '/static/images/favicon-16x16.png',
     '/static/images/apple-touch-icon.png',
     '/static/manifest.json',
     // External resources

@@ -10,6 +10,9 @@ function initializeKategorier() {
     setupCategoryFilter();
     loadCategoryContent();
     handleUrlHash();
+    
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleUrlHash);
 }
 
 // Category filtering
@@ -25,6 +28,8 @@ function setupCategoryFilter() {
 }
 
 function filterCategories(category) {
+    console.log('Filtering categories for:', category);
+    
     // Update active tab
     document.querySelectorAll('.filter-tab').forEach(tab => {
         tab.classList.remove('active');
@@ -35,14 +40,20 @@ function filterCategories(category) {
     
     // Show/hide categories
     const categoryDetails = document.querySelectorAll('.category-detail');
+    console.log('Found category details:', categoryDetails.length);
     
     categoryDetails.forEach(detail => {
         const detailCategory = detail.dataset.category;
+        console.log('Processing detail:', detailCategory, 'target:', category);
         
         if (category === 'alle' || detailCategory === category) {
             detail.classList.add('show');
+            detail.style.display = 'block';
+            console.log('Showing category:', detailCategory);
         } else {
             detail.classList.remove('show');
+            detail.style.display = 'none';
+            console.log('Hiding category:', detailCategory);
         }
     });
     
@@ -54,15 +65,20 @@ function filterCategories(category) {
     }
     
     // Track event
-    trackEvent('category', 'filtered', category);
+    if (typeof trackEvent === 'function') {
+        trackEvent('category', 'filtered', category);
+    }
 }
 
 // Handle URL hash for direct linking
 function handleUrlHash() {
     const hash = window.location.hash.substring(1);
+    console.log('Handling URL hash:', hash);
+    
     if (hash) {
         const validCategories = ['magmatiske', 'sedimentære', 'metamorfe', 'edelstener', 'mineraler', 'meteoritter'];
         if (validCategories.includes(hash)) {
+            console.log('Valid category found, filtering:', hash);
             filterCategories(hash);
             
             // Scroll to category after a delay
@@ -73,6 +89,9 @@ function handleUrlHash() {
                 }
             }, 500);
         }
+    } else {
+        // No hash, show all categories
+        filterCategories('alle');
     }
 }
 
@@ -90,7 +109,12 @@ function loadCategoryContent() {
 
 async function loadCategoryInfo(category) {
     const contentElement = document.getElementById(`${category}-content`);
-    if (!contentElement) return;
+    if (!contentElement) {
+        console.error('Content element not found for:', category);
+        return;
+    }
+    
+    console.log('Loading category info for:', category);
     
     try {
         const response = await fetch('/api/kategori', {
@@ -101,12 +125,18 @@ async function loadCategoryInfo(category) {
             body: JSON.stringify({ kategori: category })
         });
         
+        console.log('API response status:', response.status);
+        
         if (response.ok) {
             const result = await response.json();
+            console.log('API result:', result);
+            
             if (result.success) {
                 contentElement.innerHTML = formatCategoryContent(result.resultat);
+                console.log('Content loaded successfully for:', category);
             } else {
-                contentElement.innerHTML = `<p class="text-muted">Kunne ikke laste innhold for ${category}.</p>`;
+                console.error('API returned error:', result.error);
+                contentElement.innerHTML = `<p class="text-muted">Kunne ikke laste innhold for ${category}: ${result.error}</p>`;
             }
         } else {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -116,7 +146,9 @@ async function loadCategoryInfo(category) {
         console.error(`Feil ved lasting av ${category}:`, error);
         
         // Load fallback content
-        contentElement.innerHTML = getFallbackContent(category);
+        const fallbackContent = getFallbackContent(category);
+        contentElement.innerHTML = fallbackContent;
+        console.log('Fallback content loaded for:', category);
     }
 }
 
