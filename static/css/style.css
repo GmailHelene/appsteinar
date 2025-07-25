@@ -516,6 +516,119 @@ body {
 }
 
 /* ========================================
+   TEXT CONTRAST IMPROVEMENTS
+======================================== */
+
+/* Fix for text-muted on dark backgrounds */
+.text-muted {
+    color: #adb5bd !important; /* Light gray instead of Bootstrap's dark gray */
+}
+
+/* Better contrast for text-muted on dark backgrounds */
+.bg-dark .text-muted,
+.bg-secondary .text-muted,
+.navbar-dark .text-muted,
+footer.bg-dark .text-muted {
+    color: #ced4da !important; /* Even lighter for better contrast */
+}
+
+/* Fix for small text elements */
+.small,
+small {
+    color: #6c757d; /* Ensure visibility */
+}
+
+.bg-dark .small,
+.bg-dark small,
+.bg-secondary .small,
+.bg-secondary small,
+.navbar-dark .small,
+.navbar-dark small,
+footer.bg-dark .small,
+footer.bg-dark small {
+    color: #adb5bd !important; /* Light gray on dark backgrounds */
+}
+
+/* Form text and help text improvements */
+.form-text,
+.help-text,
+.step-description {
+    color: #6c757d !important;
+}
+
+.bg-dark .form-text,
+.bg-dark .help-text,
+.bg-dark .step-description,
+.bg-secondary .form-text,
+.bg-secondary .help-text,
+.bg-secondary .step-description {
+    color: #adb5bd !important;
+}
+
+/* Placeholder text visibility */
+.form-control::placeholder {
+    color: #6c757d !important;
+    opacity: 1;
+}
+
+.bg-dark .form-control::placeholder,
+.bg-secondary .form-control::placeholder {
+    color: #adb5bd !important;
+}
+
+/* Lead text improvements */
+.lead.text-muted {
+    color: #adb5bd !important;
+}
+
+.bg-dark .lead.text-muted,
+.bg-secondary .lead.text-muted {
+    color: #ced4da !important;
+}
+
+/* Alert text improvements */
+.alert .text-muted,
+.alert small {
+    color: #495057 !important;
+}
+
+/* Loading overlay text */
+.loading-overlay .text-muted {
+    color: #adb5bd !important;
+}
+
+/* Step help text */
+.step-help .text-muted,
+.step-help small {
+    color: #495057 !important;
+}
+
+/* Category examples text */
+.example-card small.text-muted {
+    color: #6c757d !important;
+}
+
+/* Error page text */
+.error-container .text-muted {
+    color: #6c757d !important;
+}
+
+/* Offline page text */
+.offline-feature .text-muted {
+    color: #6c757d !important;
+}
+
+/* General text-secondary improvements */
+.text-secondary {
+    color: #adb5bd !important;
+}
+
+.bg-dark .text-secondary,
+.bg-secondary .text-secondary {
+    color: #ced4da !important;
+}
+
+/* ========================================
    IDENTIFIKATOR PAGE STYLES
 ======================================== */
 
